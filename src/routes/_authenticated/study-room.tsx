@@ -493,11 +493,13 @@ function StudyRoom() {
             total: 100,
             level: diagnosis?.level ?? "beginner",
             completed_at: new Date().toISOString(),
-            state: {
-              diagnosis: diagnosis as unknown as Record<string, unknown>,
-              practice_correct: practiceCorrect,
-              practice_total: practiceSet.length,
-            },
+            state: JSON.parse(
+              JSON.stringify({
+                diagnosis,
+                practice_correct: practiceCorrect,
+                practice_total: practiceSet.length,
+              }),
+            ),
           })
           .eq("id", sessionId);
       }
