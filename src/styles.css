@@ -154,6 +154,10 @@
   --ring: oklch(0.75 0.14 65);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -164,6 +168,9 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 16%, transparent) 0, transparent 34%),
+      linear-gradient(135deg, color-mix(in srgb, var(--primary) 8%, var(--background)) 0%, var(--background) 100%);
   }
 
   h1,
@@ -178,6 +185,132 @@
 
 @utility bg-hero-gradient {
   background-image: var(--gradient-hero);
+}
+
+.hero-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--accent) 24%, transparent) 0, transparent 28%),
+    radial-gradient(circle at 85% 5%, color-mix(in srgb, var(--primary) 30%, transparent) 0, transparent 34%),
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 10%, var(--background)) 0%, var(--background) 100%);
+}
+
+.hero-shell::before {
+  content: "";
+  position: absolute;
+  inset: -18% auto auto -8%;
+  width: 420px;
+  height: 420px;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 9999px;
+  transform: rotate(20deg);
+  animation: spin-slow 28s linear infinite;
+}
+
+.hero-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 8%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, black 0%, transparent 90%);
+  opacity: 0.2;
+  animation: drift 24s linear infinite;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, color-mix(in srgb, var(--accent) 8%, transparent) 50%, transparent 100%);
+  opacity: 0.65;
+}
+
+.landing-shell {
+  background:
+    radial-gradient(circle at top left, rgba(245, 201, 106, 0.18), transparent 32%),
+    radial-gradient(circle at 85% 0%, rgba(103, 182, 255, 0.16), transparent 30%),
+    linear-gradient(135deg, #06111e 0%, #0b1c2f 45%, #071423 100%);
+}
+
+.landing-shell .hero-shell {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(245, 201, 106, 0.2), transparent 28%),
+    radial-gradient(circle at 85% 5%, rgba(110, 165, 255, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(6, 17, 30, 0.95) 0%, rgba(7, 25, 44, 0.98) 55%, rgba(9, 25, 42, 1) 100%);
+}
+
+.landing-shell .hero-shell::before {
+  border-color: rgba(245, 201, 106, 0.22);
+}
+
+.landing-shell .glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(8, 21, 42, 0.72);
+  box-shadow: 0 24px 70px -32px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(24px);
+}
+
+.landing-shell .section-card {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.landing-shell .section-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(245, 201, 106, 0.4);
+  box-shadow: 0 24px 60px -32px rgba(245, 201, 106, 0.35);
+}
+
+.landing-shell .hero-stat {
+  animation: drift-in 650ms ease both;
+}
+
+.landing-shell .reveal-up {
+  animation: reveal-up 700ms ease both;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(18px, -14px, 0);
+  }
+}
+
+@keyframes drift-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @utility bg-accent-gradient {
